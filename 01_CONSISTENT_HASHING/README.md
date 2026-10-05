@@ -2,6 +2,8 @@
 
 An interactive simulator that compares three key-distribution strategies side by side on identical data: **naive modulo hashing**, **consistent hashing on a ring**, and **consistent hashing with weighted virtual nodes**. Add and remove servers step by step and watch how each strategy handles load balance and key movement in real time.
 
+🔗 **Live Demo:** [https://consistent-hashing-simulator.vercel.app](https://consistent-hashing-simulator.vercel.app)
+
 ---
 
 ## Why this exists
