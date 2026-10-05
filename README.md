@@ -8,7 +8,7 @@ Every project is self-contained, with its own README, code, and setup instructio
 
 | # | Topic | What it covers | Stack |
 |---|---|---|---|
-| [01](./01-consistent-hashing) | **Consistent Hashing** | An interactive simulator comparing naive modulo hashing, a hash ring, and weighted virtual nodes on load balance and key movement | React, TypeScript, `<backend stack>` |
+| [01](https://github.com/samarjeet-88/SYSTEM_DESIGN/tree/main/01_CONSISTENT_HASHING) | **Consistent Hashing** | An interactive simulator comparing naive modulo hashing, a hash ring, and weighted virtual nodes on load balance and key movement | React, TypeScript, `<backend stack>` |
 
 More topics will be added as numbered folders.
 
