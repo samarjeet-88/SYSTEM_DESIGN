@@ -263,8 +263,3 @@ Runs parallel simulations across all three strategies and returns step-by-step d
 - [ ] Configurable hash functions (MurmurHash3 vs xxHash vs MD5)
 - [ ] JSON / CSV export of simulation step metrics
 
----
-
-## License
-
-Distributed under the **MIT License**. See `LICENSE` for details.
