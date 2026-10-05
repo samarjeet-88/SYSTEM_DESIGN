@@ -21,7 +21,6 @@ export const Header = ({
         <div className="flex items-center gap-2 px-2.5 py-1 rounded bg-[#131C2E] border border-[#24334D] text-xs font-semibold text-white tracking-wide">
           <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
           <span>Consistent Hashing Simulator</span>
-          <span className="text-slate-400 font-normal">v2.2</span>
         </div>
 
         {/* Status Pill */}
@@ -43,9 +42,6 @@ export const Header = ({
       <div className="flex items-center gap-3">
         <div className="hidden md:flex items-center gap-1.5 text-xs text-emerald-400 font-mono">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-          <span>Cluster healthy</span>
-          <span className="text-slate-600">•</span>
-          <span className="text-slate-400">backend synced (14ms)</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -63,11 +59,10 @@ export const Header = ({
           <button
             onClick={onPlay}
             disabled={isPlaying}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-xs font-semibold transition-all shadow-md active:scale-95 ${
-              isPlaying
-                ? "bg-blue-600/50 text-blue-200 border border-blue-500/30 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-500 text-white border border-blue-400/40 cursor-pointer hover:shadow-blue-500/20"
-            }`}
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-xs font-semibold transition-all shadow-md active:scale-95 ${isPlaying
+              ? "bg-blue-600/50 text-blue-200 border border-blue-500/30 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-500 text-white border border-blue-400/40 cursor-pointer hover:shadow-blue-500/20"
+              }`}
           >
             {isPlaying ? (
               <>
