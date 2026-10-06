@@ -1,4 +1,5 @@
 import net from "net";
+import decode from "./decode.js"
 
 const waitingClients = [];
 let activeClient = null;
@@ -9,29 +10,43 @@ function processNextClient() {
     }
 
     activeClient = waitingClients.shift();
+    const client = activeClient;
 
     console.log("Now serving a client");
 
-    activeClient.on("data", (data) => {
-        const realData = data.toString("utf-8");
-        console.log("Received:", realData);
-        activeClient.write(realData);
+    client.setEncoding("utf8");
+    let pending = "";
+
+    client.on("data", (chunk) => {
+        pending += chunk;
+
+        let result;
+        while (pending.length > 0 && (result = decode(pending)) !== null) {
+            const [command, consumed] = result;
+            pending = pending.slice(consumed);
+
+            console.log("Parsed:", command);
+            client.write(`+${JSON.stringify(command)}\r\n`);
+        }
     });
 
-    activeClient.on("close", () => {
+    client.on("error", (err) => {
+        console.error("Client error:", err.message);
+    });
+
+    client.on("close", () => {
         console.log("Client disconnected");
-
         activeClient = null;
-
         processNextClient();
     });
 }
 
 const server = net.createServer((socket) => {
     console.log("New client connected");
-
+    socket.on("error", (err) => {
+        console.error("Socket error:", err.message);
+    });
     waitingClients.push(socket);
-
     processNextClient();
 });
 
