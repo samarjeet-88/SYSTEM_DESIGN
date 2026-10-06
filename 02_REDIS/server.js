@@ -1,6 +1,7 @@
 import net from "net";
 import decode from "./decode.js";
 import evalCommand from "./evalCommand.js";
+import "./worker.js";
 
 const server = net.createServer((socket) => {
     console.log("New client connected");
