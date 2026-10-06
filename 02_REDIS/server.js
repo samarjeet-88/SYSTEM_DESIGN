@@ -1,23 +1,14 @@
 import net from "net";
-import decode from "./decode.js"
+import decode from "./decode.js";
+import evalCommand from "./evalCommand.js";
 
-const waitingClients = [];
-let activeClient = null;
+const server = net.createServer((socket) => {
+    console.log("New client connected");
 
-function processNextClient() {
-    if (activeClient || waitingClients.length === 0) {
-        return;
-    }
-
-    activeClient = waitingClients.shift();
-    const client = activeClient;
-
-    console.log("Now serving a client");
-
-    client.setEncoding("utf8");
+    socket.setEncoding("utf8");
     let pending = "";
 
-    client.on("data", (chunk) => {
+    socket.on("data", (chunk) => {
         pending += chunk;
 
         let result;
@@ -26,30 +17,21 @@ function processNextClient() {
             pending = pending.slice(consumed);
 
             console.log("Parsed:", command);
-            client.write(`+${JSON.stringify(command)}\r\n`);
+            socket.write(evalCommand(command));
         }
     });
 
-    client.on("error", (err) => {
-        console.error("Client error:", err.message);
-    });
-
-    client.on("close", () => {
-        console.log("Client disconnected");
-        activeClient = null;
-        processNextClient();
-    });
-}
-
-const server = net.createServer((socket) => {
-    console.log("New client connected");
     socket.on("error", (err) => {
-        console.error("Socket error:", err.message);
+        if (err.code !== "ECONNRESET") {
+            console.error("Client error:", err.message);
+        }
     });
-    waitingClients.push(socket);
-    processNextClient();
+
+    socket.on("close", () => {
+        console.log("Client disconnected");
+    });
 });
 
 server.listen(6381, "0.0.0.0", () => {
-    console.log("Server listening on port 6381");
+    console.log("Redis server listening on port 6381");
 });

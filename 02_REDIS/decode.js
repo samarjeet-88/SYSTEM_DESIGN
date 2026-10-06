@@ -39,9 +39,15 @@ function decode(data, offset = 0) {
             }
             return [items, pos];
         }
-
-        default:
-            throw new Error(`Invalid RESP type: ${type}`);
+        // adding inline command support because redis benchmark sends inline not in the RESP format
+        default: {
+            const fullLine = data.slice(offset, lineEnd).trim();
+            if (fullLine.length === 0) {
+                return [[], next];
+            }
+            const items = fullLine.split(/\s+/);
+            return [items, next];
+        }
     }
 }
 
