@@ -2,7 +2,7 @@ import { namespaceTable, expiryTable } from "./evalCommand.js";
 
 function randomSampling() {
     const keys = Array.from(expiryTable.keys());
-    if (keys.length === 0) return 0;
+    if (keys.length === 0) return { sampleSize: 0, expiredCount: 0 };
     const sampleSize = Math.min(20, keys.length);
     let expiredCount = 0;
     const now = Date.now();
@@ -22,7 +22,7 @@ function randomSampling() {
     return { sampleSize, expiredCount };
 }
 
-async function allWorks() {
+export function allWorks() {
     const startTime = Date.now();
     const MAX_TIME_MS = 25;
 
@@ -37,21 +37,3 @@ async function allWorks() {
         }
     }
 }
-
-
-let running = true;
-async function main() {
-    while (running) {
-        try {
-            await allWorks();
-        } catch (error) {
-            console.log(`Error in job, ${error}`)
-        } await new Promise((r) => setTimeout(r, 100));
-    }
-    console.log("Worker stopped cleanly")
-}
-
-process.on("SIGTERM", () => { running = false; });
-process.on("SIGINT", () => { running = false; });
-
-main();
